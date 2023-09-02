@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 5vh 0;
+      background-image: linear-gradient(to bottom, #fff, lightblue, skyblue);
+    }
+    input, button {
+      appearance: none;
+      border: none;
+      outline: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 10px;
+      background-image: radial-gradient(blue,darkblue,darkviolet);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header h1 {
+      width: 16ch;
+      white-space: nowrap;
+      overflow: hidden;
+      text-shadow: 2px 4px 3px rgba(46, 91, 173, 0.525);
+      animation: header-display 2s steps(14, end), blink-caret 0.5s infinite alternate;
+    }
+
+    @-webkit-keyframes header-display {
+      from {
+        width: 0;
+      }
+    }
+
+    @-webkit-keyframes blink-caret {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    .calculator {
+      width: 80vw;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: aliceblue;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(51, 51, 51, 0.525);
+    }
+
+    #display {
+      width: 95%;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      padding: 2vh;
+      font-size: 18px;
+      border: 1px solid blue;
+      border-radius: 5px;
+    }
+
+    #display.inputing {
+      border: none;
+      border-bottom: 2px solid blue;
+      box-shadow: 0px 4px 8px rgba(51, 51, 51, 0.525);
+      animation-name: line-slide;
+      animation-duration: 0.4s;
+      animation-iteration-count: 1;
+    }
+
+    @keyframes line-slide {
+      0% {
+        width: 0%;
+      }
+
+      10% {
+        width: 10%;
+      }
+
+      20% {
+        width: 20%;
+      }
+
+      30% {
+        width: 30%;
+      }
+
+      40% {
+        width: 40%;
+      }
+
+      50% {
+        width: 50%;
+      }
+
+      60% {
+        width: 60%;
+      }
+
+      80% {
+        width: 80%;
+      }
+
+      100% {
+        width: 95%;
+      }
+    }
+
+    .top {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .col-cont {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-count {
+      display: flex;
+    }
+
+    .buttons {
+      width: 95%;
+    }
+
+    .buttons button {
+      width: 15vw;
+      height: 10vh;
+      margin: 5px;
+      font-size: 18px;
+      background-color: #4a4afb;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 3px 5px rgba(51, 51, 51, 0.525);
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .equal-btn {
+      display: flex;
+    }
+
+    button.equal {
+      flex-grow: 1;
+      background-color: green;
+    }
+
+    button.plus {
+      flex-grow: 1;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button.delete, button.clear {
+      background-color: crimson;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>MY CALCULATOR</h1>
+  </div>
+  <div class="calculator">
+    <input type="text" id="display" readonly>
+    <div class="buttons">
+      <div class="top">
+        <div class="col-cont">
+          <div class="col-count">
+            <div class="col">
+              <button class="clear" onclick="clearDisplay()">C</button>
+              <button onclick="buttonClicked('-')">-</button>
+              <button onclick="buttonClicked('/')">/</button>
+              <button onclick="buttonClicked('*')">x</button>
+              <button class="delete" onclick="deleteInput(value)">DEL</button>
+            </div>
+            <div class="col">
+              <button onclick="buttonClicked('%')">mod</button>
+              <button onclick="buttonClicked(9)">9</button>
+              <button onclick="buttonClicked(6)">6</button>
+              <button onclick="buttonClicked(3)">3</button>
+              <button onclick="buttonClicked('00')">00</button>
+            </div>
+          </div>
+          <div class="equal-btn">
+            <button class="equal" onclick="calculate()">=</button>
+          </div>
+        </div>
+        
+        
+        <div class="col">
+          <button onclick="buttonClicked('/100')">%</button>
+          
+          <button onclick="buttonClicked(8)">8</button>
+          
+          <button onclick="buttonClicked(5)">5</button>
+          <button onclick="buttonClicked(2)">2</button>
+          
+          <button onclick="buttonClicked(0)">0</button>
+          <button onclick="buttonClicked('.')">.</button>
+        </div>
+        <div class="col">
+          <button onclick="buttonClicked('**')">></button>
+          <button onclick="buttonClicked(7)">7</button>
+          <button onclick="buttonClicked(4)">4</button>
+          <button onclick="buttonClicked(1)">1</button>
+          <button class="plus" onclick="buttonClicked('+')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let display= document.getElementById('display');
+
+    function buttonClicked(value) {
+      display.classList.add("inputing");
+      display.value += value;
+    }
+
+    function deleteInput() {
+      let displayValue = display.value;
+      const displayValueString = displayValue.toString();
+      displayValueString.slice(0, -1);
+      displayValue = displayValueString.slice(0, -1);
+      display.value = displayValue;
+      if (displayValue == "") {
+        display.classList.remove("inputing");
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "";
+      const displayValue = display.value
+      if (displayValue == "") {
+        display.classList.remove("inputing");
+      }
+    }
+
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch (error) {
+        display.value = 'Input is invalid'
+      }
+    }
+  </script>
+</body>
+</html>
